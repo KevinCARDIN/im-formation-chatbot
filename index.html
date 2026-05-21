@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assistant formation</title>
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+  <style>
+    /* Page transparente : seule la bulle/fenêtre du chat est visible */
+    html, body { margin: 0; height: 100%; background: transparent; }
+  </style>
+</head>
+<body>
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+      webhookUrl: 'https://hub.cardin.cloud/webhook/2d2ef5b5-bfb3-44d5-86c8-1234605cb51b/chat',
+      mode: 'window',                 // bulle flottante en bas à droite
+      showWelcomeScreen: false,
+      initialMessages: [
+        'Bonjour 👋',
+        "Comment je peux t'aider aujourd'hui ?"
+      ],
+      i18n: {
+        en: {
+          title: 'Une question ? 👋',
+          subtitle: 'Notre agent IA SAV te répond 24h/24.',
+          inputPlaceholder: 'Pose ta question...',
+          getStarted: 'Nouvelle conversation',
+          footer: ''
+        }
+      }
+    });
+
+    // Force tous les liens renvoyés par le bot à s'ouvrir dans un nouvel onglet
+    // (sinon ils tentent de s'ouvrir dans l'iframe, qui est minuscule)
+    new MutationObserver(() => {
+      document.querySelectorAll('a[href]').forEach(a => {
+        if (a.target !== '_blank') {
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+        }
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>
