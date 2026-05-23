@@ -74,9 +74,13 @@
   <script type="module">
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
+    // Détection appareil mobile via la taille d'ÉCRAN (pas la taille de l'iframe).
+    // Sur mobile : chat en ligne plein cadre (non bloquant). Sur ordi : bulle flottante.
+    var isMobile = (typeof screen !== 'undefined' && screen.width && screen.width <= 768);
+
     createChat({
       webhookUrl: 'https://hub.cardin.cloud/webhook/2d2ef5b5-bfb3-44d5-86c8-1234605cb51b/chat',
-      mode: 'window',                 // bulle flottante en bas à droite
+      mode: isMobile ? 'fullscreen' : 'window',  // mobile = en ligne, ordi = bulle flottante
       showWelcomeScreen: false,
       initialMessages: [
         'Bonjour 👋',
