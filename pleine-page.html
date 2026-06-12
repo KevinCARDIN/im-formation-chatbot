@@ -37,12 +37,17 @@
       --chat--heading--font-size: 1.25em;
       --chat--subtitle--color: #8a8a8a;
 
-      /* Messages : bot à gauche (gris clair), utilisateur à droite (doré) */
-      --chat--message--bot--background: #f3f3f5;
+      /* Messages : bot à gauche (bulle blanche bordée, bien visible),
+         utilisateur à droite (doré) */
+      --chat--message--bot--background: #ffffff;
       --chat--message--bot--color: #1a1a1a;
+      --chat--message--bot--border: 1px solid #e6e6ea;
       --chat--message--user--background: #C9A227;
       --chat--message--user--color: #1a1a1a;
+      --chat--message--user--border: none;
       --chat--message--font-size: 1rem;
+      --chat--message--padding: 0.7rem 1rem;
+      --chat--message--border-radius: 16px;
 
       --chat--border-radius: 14px;
       --chat--spacing: 1rem;
@@ -57,8 +62,29 @@
     .chat-header h1 { color: #C9A227 !important; margin: 0 !important; }
     .chat-header p  { color: #8a8a8a !important; margin: 2px 0 0 !important; }
 
-    /* Lecture confortable */
-    .chat-message { line-height: 1.55 !important; }
+    /* Bulles : lecture confortable + légère ombre pour le relief */
+    .chat-message {
+      line-height: 1.55 !important;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+      max-width: 80% !important;       /* les bulles ne prennent pas toute la largeur */
+    }
+
+    /* === Responsive === */
+    /* Tablette */
+    @media (max-width: 1024px) {
+      #n8n-chat { max-width: 100%; }
+    }
+    /* Téléphone : plein cadre, en-tête et textes adaptés, pas d'ombre latérale */
+    @media (max-width: 640px) {
+      #n8n-chat { box-shadow: none; }
+      :root {
+        --chat--heading--font-size: 1.1em;
+        --chat--message--font-size: 0.97rem;
+        --chat--textarea--height: 52px;
+      }
+      .chat-header { padding: 11px 14px !important; }
+      .chat-message { max-width: 88% !important; }
+    }
   </style>
 </head>
 <body>
