@@ -6,12 +6,21 @@
   <title>Assistant formation</title>
   <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
   <style>
-    /* Page dédiée plein écran : le chat occupe 100% du cadre (pas de bulle) */
-    html, body, #n8n-chat {
+    /* Fond de page neutre, le chat est une colonne centrée façon vraie messagerie */
+    html, body {
       margin: 0;
-      width: 100%;
       height: 100%;
-      background: #f7f7fa;
+      background: #eceae4;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* Le chat occupe une colonne centrée, blanche, avec une ombre douce */
+    #n8n-chat {
+      height: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      background: #ffffff;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.10);
     }
 
     /* === Thème doré Invest Malin === */
@@ -22,52 +31,37 @@
       --chat--color-secondary: #C9A227;
       --chat--color-secondary-shade-50: #B5901F;
 
+      /* En-tête blanc, titre doré */
       --chat--header--background: #ffffff;
       --chat--header--color: #C9A227;
-      --chat--heading--font-size: 1.2em;
+      --chat--heading--font-size: 1.25em;
       --chat--subtitle--color: #8a8a8a;
 
+      /* Messages : bot à gauche (gris clair), utilisateur à droite (doré) */
+      --chat--message--bot--background: #f3f3f5;
+      --chat--message--bot--color: #1a1a1a;
       --chat--message--user--background: #C9A227;
       --chat--message--user--color: #1a1a1a;
+      --chat--message--font-size: 1rem;
 
       --chat--border-radius: 14px;
+      --chat--spacing: 1rem;
 
-      /* En plein écran, on veut que la zone de saisie reste bien visible en bas */
-      --chat--textarea--height: 56px;
+      /* Zone de saisie un peu plus haute, bien visible */
+      --chat--textarea--height: 60px;
+      --chat--input--background: #ffffff;
     }
 
-    /* En-tête blanc et compact */
-    .chat-header {
-      background: #ffffff !important;
-      padding: 14px 20px !important;
-      border-bottom: 1px solid #ececec !important;
-    }
-    .chat-header h1 {
-      font-size: 1.2rem !important;
-      color: #C9A227 !important;
-      margin: 0 !important;
-    }
-    .chat-header p {
-      font-size: 0.85rem !important;
-      color: #8a8a8a !important;
-      margin: 2px 0 0 !important;
-      line-height: 1.3 !important;
-    }
-    /* Texte des messages plus grand et aéré */
-    .chat-message {
-      font-size: 1.05rem !important;
-      line-height: 1.55 !important;
-    }
-    /* Largeur de lecture confortable au centre sur grand écran */
-    .chat-body, .chat-messages-list {
-      max-width: 860px;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
+    /* En-tête compact et propre */
+    .chat-header { border-bottom: 1px solid #ececec !important; }
+    .chat-header h1 { color: #C9A227 !important; margin: 0 !important; }
+    .chat-header p  { color: #8a8a8a !important; margin: 2px 0 0 !important; }
+
+    /* Lecture confortable */
+    .chat-message { line-height: 1.55 !important; }
   </style>
 </head>
 <body>
-  <!-- Conteneur plein cadre dans lequel le chat est monté -->
   <div id="n8n-chat"></div>
 
   <script type="module">
@@ -75,7 +69,7 @@
 
     createChat({
       webhookUrl: 'https://hub.cardin.cloud/webhook/2d2ef5b5-bfb3-44d5-86c8-1234605cb51b/chat',
-      mode: 'fullscreen',          // <-- plein écran (zone de texte sur toute la page, plus de bulle)
+      mode: 'fullscreen',
       target: '#n8n-chat',
       showWelcomeScreen: false,
       initialMessages: [
@@ -93,8 +87,7 @@
       }
     });
 
-    // Force les liens renvoyés par le bot à s'ouvrir dans un nouvel onglet
-    // (sinon ils tentent de s'ouvrir dans l'iframe de la leçon)
+    // Les liens du bot s'ouvrent dans un nouvel onglet
     new MutationObserver(() => {
       document.querySelectorAll('a[href]').forEach(a => {
         if (a.target !== '_blank') {
